@@ -11,13 +11,10 @@ export const userService = {
 function login(email, password) {
     return axios.post("/api/Auth/Login", {
         email: email,
-        password: password  
+        password: password 
     })
     .then(handleResponse)
     .then(user => {
-        // eslint-disable-next-line no-console
-        console.log(email, password, user);
-
         // login successful if there's a jwt token in the response
         if (user.accessToken) {
             // store user details and jwt token in local storage to keep user logged in between page refreshes

@@ -1,9 +1,11 @@
 <script>
-import axios from "axios";
 
 import Layout from "../../layouts/auth";
 import { authMethods } from "@/state/helpers";
 import appConfig from "@/app.config";
+
+// eslint-disable-next-line no-console
+console.log(appConfig);
 
 import { required, email } from "vuelidate/lib/validators";
 
@@ -30,6 +32,7 @@ export default {
       error: null,
       tryingToReset: false,
       isResetError: false,
+      footerText: appConfig.footer
     };
   },
   validations: {
@@ -47,40 +50,10 @@ export default {
       // stop here if form is invalid
       this.$v.$touch();
 
-      if (this.$v.$invalid) {
+      if (this.$v.invalid)
         return;
-      } else {
-        if (process.env.VUE_APP_DEFAULT_AUTH === "firebase") {
-          this.tryingToReset = true;
-          // Reset the authError if it existed.
-          this.error = null;
-          return (
-            this.resetPassword({
-              email: this.email,
-            })
-              // eslint-disable-next-line no-unused-vars
-              .then((token) => {
-                this.tryingToReset = false;
-                this.isResetError = false;
-              })
-              .catch((error) => {
-                this.tryingToReset = false;
-                this.error = error ? error : "";
-                this.isResetError = true;
-              })
-          );
-        } else if (process.env.VUE_APP_DEFAULT_AUTH === "authapi") {
-          axios
-            .post("http://127.0.0.1:8000/api/password/create", {
-              email: this.email,
-            })
-            .then((res) => {
-              this.isResetError = true;
-              this.error = res.data;
-              return res;
-            });
-        }
-      }
+
+      // reset here
     },
   },
 };
@@ -173,8 +146,7 @@ export default {
             >
           </p>
           <p>
-            © {{ new Date().getFullYear() }} Skote. Crafted with
-            <i class="mdi mdi-heart text-danger"></i> by Themesbrand
+            © {{ new Date().getFullYear() }} {{ footerText }}
           </p>
         </div>
       </div>

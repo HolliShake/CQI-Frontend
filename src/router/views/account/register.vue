@@ -40,6 +40,7 @@ export default {
       tryingToRegister: false,
       isRegisterError: false,
       registerSuccess: false,
+      footerText: appConfig.footer
     };
   },
   validations: {
@@ -315,8 +316,7 @@ export default {
             >
           </p>
           <p>
-            © {{ new Date().getFullYear() }} Skote. Crafted with
-            <i class="mdi mdi-heart text-danger"></i> by Themesbrand
+            © {{ new Date().getFullYear() }} {{ footerText }}
           </p>
         </div>
       </div>

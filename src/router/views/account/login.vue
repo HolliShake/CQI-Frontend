@@ -37,6 +37,7 @@
 				authError: null,
 				tryingToLogIn: false,
 				isAuthError: false,
+        footerText: appConfig.footer
 			};
 		},
 		validations: {
@@ -71,7 +72,7 @@
         this.$store.dispatch("auth/login", {
           email: this.email, password: this.password
         });
-        
+
 			},
 		},
 		mounted() {
@@ -236,7 +237,7 @@
             >
           </p>
           <p>
-            © {{ new Date().getFullYear() }} Digital Transformation Office
+            © {{ new Date().getFullYear() }} {{ footerText }}
           </p>
         </div>
         <!-- end row -->
