@@ -1,5 +1,5 @@
 <script>
-import Layout from "../../layouts/main";
+import Layout from "../../../../layouts/admin/main";
 import appConfig from "@/app.config";
 import PageHeader from "@/components/page-header";
 /**
@@ -131,6 +131,6 @@ export default {
 <template>
   <Layout>
     <PageHeader :title="title" :items="items" />
-  
+    FOOC
   </Layout>
 </template>

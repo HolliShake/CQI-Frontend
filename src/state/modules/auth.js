@@ -28,6 +28,7 @@ export const actions = {
     logout({ commit }) {
         userService.logout();
         commit('logout');
+        router.push('/login');
     },
     // register the user5
     registeruser({ dispatch, commit }, user) {

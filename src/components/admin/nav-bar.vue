@@ -1,11 +1,9 @@
 <script>
 import axios from "axios";
 
-import i18n from "../i18n";
+import i18n from "../../i18n";
 
 import simplebar from "simplebar-vue";
-
-
 
 /**
  * Nav-bar Component
@@ -94,11 +92,13 @@ export default {
     },
     logoutUser() {
       // eslint-disable-next-line no-unused-vars
-      axios.get("http://127.0.0.1:8000/api/logout").then((res) => {
-        this.$router.push({
-          name: "default",
-        });
-      });
+      // axios.get("http://127.0.0.1:8000/api/logout").then((res) => {
+      //   this.$router.push({
+      //     name: "default",
+      //   });
+      // });
+      axios;
+      this.$store.dispatch("auth/logout");
     },
   },
 };
@@ -663,16 +663,16 @@ export default {
             {{ $t("navbar.dropdown.henry.list.lockscreen") }}
           </b-dropdown-item>
           <b-dropdown-divider></b-dropdown-divider>
-          <a
-            href="/logout"
-           
+          <b-button
+            variant="link"
+            @click="logoutUser"
             class="dropdown-item text-danger"
           >
             <i
               class="bx bx-power-off font-size-16 align-middle me-1 text-danger"
             ></i>
             {{ $t("navbar.dropdown.henry.list.logout") }}
-          </a>
+        </b-button>
         </b-dropdown>
 
         <div class="dropdown d-inline-block">

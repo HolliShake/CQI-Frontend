@@ -7,7 +7,7 @@ export default [
     meta: {
       authRequired: true,
     },
-    component: () => import('./views/dashboards/default'),
+    component: () => import('./views/role/admin/dashboard/default'),
   },
   {
     path: '/login',
@@ -21,23 +21,6 @@ export default [
           next({ name: 'default' })
         } else {
           // Continue to the login page
-          next()
-        }
-      },
-    },
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    component: () => import('./views/account/register'),
-    meta: {
-      beforeResolve(routeTo, routeFrom, next) {
-        // If the user is already logged in
-        if (store.getters['auth/loggedIn']) {
-          // Redirect to the home page instead
-          next({ name: 'default' })
-        } else {
-          // Continue to the register page
           next()
         }
       },

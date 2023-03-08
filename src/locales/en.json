@@ -94,8 +94,8 @@
     "menu": {
       "text": "Menu"
     },
-    "dashboards": {
-      "text": "Dashboards",
+    "dashboard": {
+      "text": "Dashboard",
       "badge": "04",
       "list": {
         "default": "Default",
@@ -103,6 +103,9 @@
         "crypto": "Crypto",
         "blog": "Blog"
       }
+    },
+    "operation": {
+      "text": "operation"
     },
     "layouts": {
       "text": "Layouts",

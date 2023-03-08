@@ -85,7 +85,7 @@
   <Layout>
     <div class="row justify-content-center">
       <div class="col-md-8 col-lg-6 col-xl-5">
-        <div class="card overflow-hidden">
+        <div class="card overflow-hidden shadow-sm">
           <div class="bg-soft bg-primary">
             <div class="row">
               <div class="col-7">
@@ -227,15 +227,6 @@
         <!-- end card -->
 
         <div class="mt-5 text-center">
-          <p>
-            Don't have an account ?
-            <router-link
-              tag="a"
-              to="/register"
-              class="fw-medium text-primary"
-              >Signup now</router-link
-            >
-          </p>
           <p>
             © {{ new Date().getFullYear() }} {{ footerText }}
           </p>
