@@ -6,6 +6,11 @@ export const state = user
     ? { status: { loggeduser: true }, user }
     : { status: {}, user: null };
 
+
+export const getters = {
+    loggedIn: () => state.status.loggeduser
+};
+
 export const actions = {
     // Logs in the user.
     // eslint-disable-next-line no-unused-vars

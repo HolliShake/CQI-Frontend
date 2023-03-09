@@ -15,6 +15,8 @@ export default [
     component: () => import('./views/account/login'),
     meta: {
       beforeResolve(routeTo, routeFrom, next) {
+        // eslint-disable-next-line no-console
+        console.log(store.state.auth);
         // If the user is already logged in
         if (store.getters['auth/loggedIn']) {
           // Redirect to the home page instead
