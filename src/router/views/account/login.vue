@@ -64,15 +64,14 @@
 			tryToLogIn() {
 				this.submitted = true;
 				// stop here if form is invalid
-				this.$v.$touch();
+				this.$v.$touch(); 
 
-				if (this.$v.invalid)
-					return;
+				if (this.$v.$invalid)
+					return
 
         this.$store.dispatch("auth/login", {
           email: this.email, password: this.password
         });
-
 			},
 		},
 		mounted() {
@@ -133,10 +132,10 @@
                 class="mb-3"
                 id="input-group-1"
                 label="Email"
-                label-for="input-1"
+                label-for="input-email"
               >
                 <b-form-input
-                  id="input-1"
+                  id="input-email"
                   v-model="email"
                   type="text"
                   placeholder="Enter email"
@@ -155,10 +154,10 @@
                 class="mb-3"
                 id="input-group-2"
                 label="Password"
-                label-for="input-2"
+                label-for="input-password"
               >
                 <b-form-input
-                  id="input-2"
+                  id="input-password"
                   v-model="password"
                   type="password"
                   placeholder="Enter password"

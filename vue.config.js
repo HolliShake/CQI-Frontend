@@ -9,5 +9,6 @@ module.exports = {
   },
   devServer: {
     proxy: "https://localhost:7181"
-  }
+  },
+  transpileDependencies: ['vue-currency-input'],
 }

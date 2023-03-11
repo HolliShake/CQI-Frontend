@@ -8,6 +8,7 @@ export const state = user
 
 
 export const getters = {
+    userName: () => state.user.userName,
     loggedIn: () => state.status.loggeduser
 };
 
@@ -24,8 +25,8 @@ export const actions = {
                     router.push('/');
                 },
                 error => {
-                    commit('loginFailure', error);
-                    dispatch('notification/error', error, { root: true });
+                    commit('loginFailure', error.response.data);
+                    dispatch('notification/error', error.response.data, { root: true });
                 }
             );
     },

@@ -1,6 +1,6 @@
 <script>
 import { layoutMethods } from "@/state/helpers";
-import { menuItems } from "./horizontal-menu";
+import { menuItems } from "../horizontal-menu";
 
 export default {
   data() {

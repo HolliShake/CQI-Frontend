@@ -9,6 +9,8 @@ import vco from "v-click-outside"
 import router from './router/index'
 import Scrollspy from 'vue2-scrollspy';
 import VueSweetalert2 from 'vue-sweetalert2';
+import Toast from 'vue-toast-notification'
+import 'vue-toast-notification/dist/theme-sugar.css'
 
 import "../src/design/app.scss";
 
@@ -19,8 +21,6 @@ import App from './App.vue'
 import i18n from './i18n'
 
 import tinymce from 'vue-tinymce-editor'
-
-
 
 Vue.component('tinymce', tinymce)
 Vue.use(VueRouter)
@@ -34,7 +34,10 @@ Vue.use(BootstrapVue)
 Vue.use(Vuelidate)
 Vue.use(VueMask)
 Vue.use(require('vue-chartist'))
-Vue.use(VueSweetalert2);
+Vue.use(VueSweetalert2)
+Vue.use(Toast);
+
+
 Vue.use(VueGoogleMaps, {
   load: {
     key: 'AIzaSyAbvyBxmMbFhrzP9Z8moyYr6dCr-pzjhBE',

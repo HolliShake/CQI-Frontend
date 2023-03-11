@@ -12,6 +12,18 @@ export const menuItems = [
     },
     {
         id: 3,
+        label: "menuitems.school_and_campus.text",
+        icon: "bxs-school",
+        link: "/schoolandcampus"
+    },
+    {
+        id: 4,
+        label: "menuitems.delivery_unit.text",
+        icon: "bxs-school",
+        link: "/schoolandcampus"
+    },
+    {
+        id: 5,
         label: "menuitems.operation.text",
         isTitle: true
     },
