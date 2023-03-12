@@ -25,8 +25,11 @@ export const actions = {
                     router.push('/');
                 },
                 error => {
-                    commit('loginFailure', error.response.data);
-                    dispatch('notification/error', error.response.data, { root: true });
+                    commit('loginFailure', error.response.data)
+
+                    error.response.status != 500
+                    ? dispatch('notification/error', error.response.data, { root: true })
+                    : dispatch('notification/error', "Something went wrong, check your connection!", { root: true });
                 }
             );
     },

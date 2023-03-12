@@ -1,9 +1,14 @@
 <script>
-import Layout from "../../../layouts/admin/main";
+import {mapState} from "vuex";
 import appConfig from "@/app.config";
 import PageHeader from "@/components/page-header";
-import AddOrUpdateSchoolModal from "./school_and_campus_modal.vue"
-import ActionButton from "../../../../components/admin/action-button.vue";
+import Layout from "../../../layouts/admin/main";
+import ManageSchoolModal from "@/components/admin/school_and_campus/manage_modal.vue"
+import AddOrUpdateSchoolModal from "@/components/admin/school_and_campus/add_or_update_modal.vue"
+import ActionButton from "@/components/admin/school_and_campus/action-button.vue"
+import EmptyList from "@/components/state/empty-data.vue"
+import NoConenction from "@/components/state/no-connection.vue"
+
 /**
  * Dashboard Component
  */
@@ -20,9 +25,12 @@ export default {
   components: {
     Layout,
     PageHeader,
+    ManageSchoolModal,
     AddOrUpdateSchoolModal,
-    ActionButton
-  },
+    ActionButton,
+    EmptyList,
+    NoConenction
+},
   data() {
     return {
       title: "School and Campuses",
@@ -33,31 +41,37 @@ export default {
           {key: "schoolNumber", thClass: "text-center", tdClass: "text-center"},
           {key: "action", thClass: "text-center", tdClass: "text-center"}
         ],
-        items: this.$store.getters["school/items"],
         perPage: 4,
         currentPage: 1
       },
-      isUpdateMode: false
+      isUpdateMode: false,
+      toUpdate: null
     };
   },
   methods: {
 
-    onDelete() {
-      alert('To delete!')
-      this.$toast.success('Data saved successfully!');
+    onManage(schoolToManage) {
+      this.$store.dispatch('schoolManageModal/show', {modal: this.$bvModal, target: "manageSchoolModal", data: schoolToManage})
     },
 
-    onUpdate() {
-      this.isUpdateMode = true;
-      this.$bvModal.show("addOrUpdateSchoolModal")
-      
+    onCreate() {
+      this.$store.dispatch('schoolAddOrUpdateModal/createSchool', {modal: this.$bvModal, target: "addOrUpdateSchoolModal"})
+    },
+
+    onUpdate(schoolToUpdate) {
+      this.$store.dispatch('schoolAddOrUpdateModal/updateSchool', {modal: this.$bvModal, target: "addOrUpdateSchoolModal", data: schoolToUpdate});
+    },
+
+    onDelete(id) {
+      this.$store.dispatch('school/deleteSchool', id);
     }
 
   },
   computed: {
-    schoolRows() {
-      return this.school.items.length;
-    }
+    ...mapState("school", ["items", "isNoConnection"]),
+  },
+  mounted() {
+    this.$store.dispatch("school/fetchAll");
   }
 };
 </script>
@@ -67,23 +81,28 @@ export default {
 
     <PageHeader :title="title" />
 
+    <ManageSchoolModal 
+      id="manageSchoolModal"/>
+
     <!-- add or update school modal -->
-    <AddOrUpdateSchoolModal id="addOrUpdateSchoolModal" :update-mode="isUpdateMode" />
+    <AddOrUpdateSchoolModal 
+      id="addOrUpdateSchoolModal" />
     
     <b-container class="bg-white shadow-sm">
       <b-row>
         <b-col class="px-0" offset="12">
           <div class="py-3">
-            <div v-if="school.items.length > 0">
+            <div v-if="items.length > 0">
               <b-container>
                 <b-row>
-                  
+                  <!-- asd -->
                   <b-col cols="12" class="mb-3">
                     <b-button
                       class="d-block ms-auto"
                       size="sm"
                       variant="success"
-                      v-b-modal.addOrUpdateSchoolModal>
+                      @click="onCreate">
+                      <!-- v-b-modal.addOrUpdateSchoolModal> -->
                         <i class="bx bxs-plus-square"></i>
                         New School
                       </b-button>
@@ -93,19 +112,23 @@ export default {
                     <b-table 
                       id="schoolTable"
                       class="border"
+                      ref="schoolTable"
                       striped
                       bordered
                       :per-page="school.perPage"
                       :current-page="school.currentPage"
                       :fields="school.fields"
-                      :items="school.items">
+                      :items="items">
 
                       <template #cell(#)="row">
                         {{ row.item.id }}
                       </template>
 
                       <template #cell(action)="row">
-                        <ActionButton @delete="onDelete" @update="onUpdate"/> {{ row.schoolFullName }}
+                        <ActionButton 
+                          @manage="() => onManage(row.item)"
+                          @delete="() => onDelete(row.item.id)" 
+                          @update="() => onUpdate(row.item)"/>
                       </template>
 
                     </b-table>
@@ -114,7 +137,7 @@ export default {
                       <b-pagination
                         align="right" 
                         v-model="school.currentPage" 
-                        :total-rows="schoolRows" 
+                        :total-rows="items.length" 
                         :per-page="school.perPage" 
                         aria-controls="schoolTable"></b-pagination>
                     </div>
@@ -123,8 +146,18 @@ export default {
               </b-container>
             </div>
 
+            <div v-else-if="isNoConnection">
+              <NoConenction 
+                icon-class="bx bxs-plus-square"
+                buttonLabel="Logout" />
+            </div>
+
             <div v-else>
-              <h1>Empty</h1>
+              <EmptyList 
+                label="Your school collection is empty."
+                icon-class="bx bxs-plus-square"
+                buttonLabel="New school" 
+                @onAction="onCreate"/>
             </div>
 
           </div>
@@ -136,20 +169,4 @@ export default {
 </template>
 
 <style>
-
-  .nav.nav-tabs {
-    border-color: transparent;
-  }
-
-  .nav.nav-tabs .nav-link {
-    border: none;
-    border-radius: 0 !important;
-    border-top: 4px solid transparent;
-  
-  }
-
-  .nav.nav-tabs .nav-link.active { 
-    border-top: 4px solid #6c25be;
-  }
-
 </style>

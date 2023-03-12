@@ -1,6 +1,7 @@
 
 <script>
     import { required } from "vuelidate/lib/validators";
+    import { mapState } from "vuex";
 
     export default {
         name: "shcool_and_campus_modal",
@@ -8,10 +9,6 @@
             id: {
                 required: true,
                 type: String
-            },
-            updateMode: {
-                type: Boolean,
-                default: false
             }
         },
         data() {
@@ -28,6 +25,15 @@
             schoolNumber: { required },
         },
         methods: {
+
+            onShow() {
+                if (!this.data) return
+
+                this.schoolName = this.data.schoolName
+                this.schoolShortName = this.data.schoolShortName
+                this.schoolNumber = this.data.schoolNumber
+            },
+
             onOk() {
                 this.submitted = true
                 this.$v.$touch();
@@ -35,35 +41,60 @@
                 if (this.$v.$invalid)
                     return
 
-                this.$store.dispatch("school/newSchool", {
+                if (!this.data) 
+                {
+                    this.$store.dispatch("school/newSchool", {
+                        schoolName: this.schoolName, 
+                        schoolShortName: this.schoolShortName,
+                        schoolNumber: this.schoolNumber
+                    })
+                    .then(this.clear)
+                    return;
+                }
+
+                // if nothing updated return
+                if (this.data.schoolName === this.schoolName.trim() && this.data.schoolShortName === this.schoolShortName.trim() && this.data.schoolNumber === this.schoolNumber.trim()) 
+                    return this.clear()
+
+                this.$store.dispatch("school/updateSchool", {
+                    id: this.data.id,
                     schoolName: this.schoolName, 
                     schoolShortName: this.schoolShortName,
-                    schoolNumber: this.schoolNumber})
+                    schoolNumber: this.schoolNumber
+                })
+                .then(this.clear)
             },
+
             onCancel() {
                 this.clear();
             },
 
             clear() {
+                this.submitted = false;
                 this.schoolName = "";
                 this.schoolShortName = "";
                 this.schoolNumber = "";
+                this.$store.dispatch('schoolAddOrUpdateModal/clear')
             }
+        },
+        computed: {
+            ...mapState("schoolAddOrUpdateModal", ["data"]),
         }
     }
 </script>
 
 <template>
         <b-modal 
-            :ref="id"
             :id="id" 
-            title="Create new schools" 
+            :title="(!data) ? 'Create new schools' : 'Update school'" 
             header-class="border-0"
             footer-class="border-0"
-            content-class="bg-white rounded-1"
+            content-class="bg-white rounded shadow-sm"
             no-close-on-esc 
             no-close-on-backdrop
+            hide-header-close
             :ok-disabled="(this.$v.$invalid) ? true : false"
+            @show="onShow"
             @ok="onOk"
             @cancel="onCancel">
 
@@ -128,11 +159,11 @@
             </b-container>
 
             <template #modal-cancel>
-                discard
+                {{ ($v.$invalid) ? "cancel" : "discard" }}
             </template>
 
             <template #modal-ok>
-                {{ updateMode ? "update" : "save" }}
+                {{ data ? "update" : "save" }}
             </template>
 
         </b-modal>

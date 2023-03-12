@@ -18,7 +18,7 @@ export default {
         right variant="black" menu-class="dropdown-menu-end">
         
         <template v-slot:button-content>
-            <i class="bx bxs-edit"></i>
+            <i class='bx bx-pencil'></i>
         </template>
 
         <!-- item-->
@@ -33,7 +33,7 @@ export default {
         <b-dropdown-divider></b-dropdown-divider>
 
         <b-dropdown-item @click="$emit('update')">
-            <i class="bx bx-wallet font-size-16 align-middle me-1"></i>
+            <i class="bx bx-edit-alt font-size-16 align-middle me-1"></i>
             {{ $t("actionButton.update") }}
         </b-dropdown-item>
 

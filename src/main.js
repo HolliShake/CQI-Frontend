@@ -35,7 +35,9 @@ Vue.use(Vuelidate)
 Vue.use(VueMask)
 Vue.use(require('vue-chartist'))
 Vue.use(VueSweetalert2)
-Vue.use(Toast);
+Vue.use(Toast, {
+  position: 'top-right',
+});
 
 
 Vue.use(VueGoogleMaps, {

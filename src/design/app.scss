@@ -98,3 +98,35 @@ File: Main Css File
 // @import "custom/rtl/text-rtl";
 // @import "custom/rtl/components-rtl";
 // @import "custom/rtl/bootstrap-rtl";
+
+.nav.nav-tabs {
+    border-color: transparent;
+}
+
+.nav.nav-tabs .nav-link {
+    border: none;
+    border-radius: 0 !important;
+    border-top: 4px solid transparent;
+}
+
+.nav.nav-tabs .nav-link.active { 
+    border-top: 4px solid #8347c8;
+    background-color: rgb(248, 248, 244);
+}
+
+
+.modal-open .modal {
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    -moz-backdrop-filter: blur(3px);
+    -o-backdrop-filter: blur(3px);
+    -ms-backdrop-filter: blur(3px);
+}
+.modal-backdrop {
+    -webkit-filter: blur(1px);
+    -moz-filter: blur(1px);
+    -o-filter: blur(1px);
+        -ms-filter: blur(1px);
+        filter: blur(1px);
+    background-color: transparent !important;
+}

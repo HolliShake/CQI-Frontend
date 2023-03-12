@@ -7,7 +7,7 @@ export default [
     meta: {
       authRequired: true,
     },
-    component: () => import('./views/admin/dashboard/dashboard'),
+    component: () => import('./views/admin/dashboard'),
   },
   {
     path: '/schoolandcampus',
@@ -15,7 +15,7 @@ export default [
     meta: {
       authRequired: true,
     },
-    component: () => import('./views/admin/school_and_campus/school_and_campus'),
+    component: () => import('./views/admin/school_and_campus'),
   },
   /*________________________________ Authentication*/
   {
