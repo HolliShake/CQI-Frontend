@@ -1,6 +1,7 @@
 
 
 <script>
+    import axios from "axios"
     import { mapState } from 'vuex';
     import { required } from 'vuelidate/lib/validators';
 
@@ -17,38 +18,73 @@
         },
         data() {
             return {
-                actionTabs: {0: "Manage school", 1: "Create campus", 2: ""},
+                actionTabs: {0: "Manage school", 1: "New campus", 2: ""},
                 tabIndex: 0,
                 actionMap,
 
-                campusModel: {
-                    campusName: "",
-                    campusShortName: ""
-                },
+                countries: [],
 
-                zipcodeModel: {
-                    zipcodeBarangay: "",
-                    zipcodeCity: "",
-                    zipcodeProvince: "",
-                    zipcodeRegion: "",
-                    zipcodeCountry: ""
-                }
+                campusFormSubmitted: false,
+
+                // campus
+                campusName: "",
+                campusShortName: "",
+                
+                // zipcode
+                zipcodeBarangay: "",
+                zipcodeCity: "",
+                zipcodeProvince: "",
+                zipcodeRegion: "",
+                zipcodeCountry: ""
             }
         },
         methods: {
-            onShow() {
+            async onShow() {
+                if (!this.school) return
+
                 this.$store.dispatch("school/getSchool", this.school.id)
+
+                this.countries = (await axios.get("https://restcountries.com/v3.1/all")).data
+                // eslint-disable-next-line
+                console.log(this.countries)
+
             },
 
 
             onCreateCampus() {
-                alert("Hello")
+                this.campusFormSubmitted = true
+                this.$v.$touch()
+
+                if (this.$v.$invalid)
+                    return
+                
+                this.$store.dispatch("campus/newCampus", {
+                    campusName: this.campusName,
+                    campusShortName: this.campusShortName,
+                    barangay: this.zipcodeBarangay,
+                    city: this.zipcodeCity,
+                    province: this.zipcode.zipcodeProvince,
+                    region: this.zipcodeRegion,
+                    country: this.zipcode.zipcodeCountry,
+                    schoolId: this.school.id
+                })
+                .then(this.whenCampusDone)
             },
 
             onCancelCampus() {
+                this.whenCampusDone()
+            },
+
+            whenCampusDone() {
                 this.tabIndex = 0
-
-
+                this.campusName = ""
+                this.campusShortName = ""
+                this.zipcodeBarangay = ""
+                this.zipcodeCity = ""
+                this.zipcodeProvince = ""
+                this.zipcodeRegion = ""
+                this.zipcodeCountry = ""
+                this.$v.$reset()
             }
 
         },
@@ -74,8 +110,8 @@
 <template>
     <b-modal 
         :id="id" 
-        size="xl" 
         :title="actionTabs[tabIndex]"
+        size="xl" 
         header-class="border-0"
         footer-class="border-0"
         content-class="bg-white rounded shadow-sm"
@@ -148,40 +184,58 @@
                 <b-form @submit.prevent="onCreateCampus" method="POST">
                     <b-container>
                         <b-row>
-                            <b-col cols="12" md="8" lg="6" offset-md="2" offset-lg="2" class="mb-3">
+                            <b-col cols="12" md="8" lg="5" offset-md="2" offset-lg="2" class="mb-3">
                                 <b-form-group
                                     class="text-muted"
                                     label="Campus name"
                                     label-for="campus-name">
                                     <b-form-input
+                                        v-model="campusName"
                                         id="campus-name"
                                         type="text"
-                                        placeholder="campus name">
+                                        placeholder="campus name"
+                                        :class="{ 'is-invalid': campusFormSubmitted && $v.campusName.$error }">
                                     </b-form-input>
+                                    <div v-if="campusFormSubmitted && $v.campusName.$error"
+                                        class="invalid-feedback">
+                                        <span v-if="!$v.campusName.required">Campus name is required.</span>
+                                    </div>
                                 </b-form-group>
                             </b-col>
-                            <b-col cols="12" md="8" lg="2" offset-md="2" offset-lg="0" class="mb-3">
+                            <b-col cols="12" md="8" lg="3" offset-md="2" offset-lg="0" class="mb-3">
                                 <b-form-group
                                     class="text-muted"
                                     label="Campus short name"
                                     label-for="campus-short-name">
                                     <b-form-input
+                                        v-model="campusShortName"
                                         id="campus-short-name"
                                         type="text"
-                                        placeholder="campus short name">
+                                        placeholder="campus short name"
+                                        :class="{ 'is-invalid': campusFormSubmitted && $v.campusShortName.$error }">
                                     </b-form-input>
+                                    <div v-if="campusFormSubmitted && $v.campusName.$error"
+                                        class="invalid-feedback">
+                                        <span v-if="!$v.campusShortName.required">Campus short name is required.</span>
+                                    </div>
                                 </b-form-group>
                             </b-col>
-                            <b-col cols="12" md="3" offset-md="2" class="mb-3">
+                            <b-col cols="12" md="4" offset-md="2" class="mb-3">
                                 <b-form-group
                                     class="text-muted"
                                     label="Barangay"
                                     label-for="zipcode-barangay">
                                     <b-form-input
+                                        v-model="zipcodeBarangay"
                                         id="zipcode-barangay"
                                         type="text"
-                                        placeholder="barangay">
+                                        placeholder="barangay"
+                                        :class="{ 'is-invalid': campusFormSubmitted && $v.zipcodeBarangay.$error }">
                                     </b-form-input>
+                                    <div v-if="campusFormSubmitted && $v.zipcodeBarangay.$error"
+                                        class="invalid-feedback">
+                                        <span v-if="!$v.zipcodeBarangay.required">Barangay is required.</span>
+                                    </div>
                                 </b-form-group>
                             </b-col>
                             <b-col cols="6" md="2" class="mb-3">
@@ -190,22 +244,34 @@
                                     label="City"
                                     label-for="zipcode-city">
                                     <b-form-input
+                                        v-model="zipcodeCity"
                                         id="zipcode-city"
                                         type="text"
-                                        placeholder="city">
+                                        placeholder="city"
+                                        :class="{ 'is-invalid': campusFormSubmitted && $v.zipcodeCity.$error }">
                                     </b-form-input>
+                                    <div v-if="campusFormSubmitted && $v.zipcodeCity.$error"
+                                        class="invalid-feedback">
+                                        <span v-if="!$v.zipcodeCity.required">City is required.</span>
+                                    </div>
                                 </b-form-group>
                             </b-col>
-                            <b-col cols="6" md="3" class="mb-3">
+                            <b-col cols="6" md="2" class="mb-3">
                                 <b-form-group
                                     class="text-muted"
                                     label="Province"
                                     label-for="zipcode-province">
                                     <b-form-input
+                                        v-model="zipcodeProvince"
                                         id="zipcode-province"
                                         type="text"
-                                        placeholder="province">
+                                        placeholder="province"
+                                        :class="{ 'is-invalid': campusFormSubmitted && $v.zipcodeCity.$error }">
                                     </b-form-input>
+                                    <div v-if="campusFormSubmitted && $v.zipcodeCity.$error"
+                                        class="invalid-feedback">
+                                        <span v-if="!$v.zipcodeProvince.required">Province is required.</span>
+                                    </div>
                                 </b-form-group>
                             </b-col>
                             <b-col cols="12" md="2" offset-md="2" class="mb-3">
@@ -214,10 +280,16 @@
                                     label="Region"
                                     label-for="zipcode-region">
                                     <b-form-input
+                                        v-model="zipcodeRegion"
                                         id="zipcode-region"
                                         type="number"
-                                        placeholder="region">
+                                        placeholder="region"
+                                        :class="{ 'is-invalid': campusFormSubmitted && $v.zipcodeRegion.$error }">
                                     </b-form-input>
+                                    <div v-if="campusFormSubmitted && $v.zipcodeRegion.$error"
+                                        class="invalid-feedback">
+                                        <span v-if="!$v.zipcodeRegion.required">Region is required.</span>
+                                    </div>
                                 </b-form-group>
                             </b-col>
                             <b-col cols="12" md="3" class="mb-3">
@@ -225,11 +297,21 @@
                                     class="text-muted"
                                     label="Country"
                                     label-for="zipcode-country">
-                                    <b-form-input
+                                    <select
+                                        v-model="zipcodeCountry"
                                         id="zipcode-country"
-                                        type="text"
-                                        placeholder="country">
-                                    </b-form-input>
+                                        placeholder="country"
+                                        :class="{ 'is-invalid': campusFormSubmitted && $v.zipcodeCountry.$error, 'form-select': true }">
+                                        <option 
+                                            v-for="(country, idx) in countries.map(c => c.name.common).sort()" 
+                                            :key="idx">
+                                            {{ country }}
+                                        </option>
+                                    </select>
+                                    <div v-if="campusFormSubmitted && $v.zipcodeCountry.$error"
+                                        class="invalid-feedback">
+                                        <span v-if="!$v.zipcodeCountry.required">Country is required.</span>
+                                    </div>
                                 </b-form-group>
                             </b-col>
                             <b-col cols="12" md="8" offset-md="2" class="text-center my-3">

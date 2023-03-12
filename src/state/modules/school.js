@@ -3,7 +3,6 @@ import _ from "lodash";
 import { authHeader } from "@/helpers/authservice/auth-header";
 
 
-const config = {headers: authHeader()};
 
 
 const storedData = JSON.parse(localStorage.getItem("schools"))
@@ -25,7 +24,7 @@ export const actions = {
 
     fetchAll({commit}) {
 
-        axios.get("/api/School/all", config)
+        axios.get("/api/School/all", authHeader())
         .then(res => {
             commit("setItem", res.data)
             commit("setNoConnection", false)
@@ -35,7 +34,7 @@ export const actions = {
     },
     
     getSchool({dispatch, commit}, id) {
-        axios.get(`/api/School/${id}/campuses`, config)
+        axios.get(`/api/School/${id}/campuses`, authHeader())
         .then(res => {
             commit("setCampuses", res.data.campuses)
         })
@@ -47,7 +46,7 @@ export const actions = {
             SchoolName: schoolName,
             SchoolNumber: schoolNumber,
             SchoolShortName: schoolShortName
-        }, config)
+        }, authHeader())
         .then(res => {
             commit("appendSchool", res.data)
             dispatch("toast/success", "School created successfully!", {root: true})
@@ -60,7 +59,7 @@ export const actions = {
             SchoolName: schoolName,
             SchoolNumber: schoolNumber,
             SchoolShortName: schoolShortName
-        }, config)
+        }, authHeader())
         .then(() => {
             commit("modifySchool", {id, schoolName, schoolNumber, schoolShortName})
             dispatch("toast/success", "School updated successfully!", {root: true})
@@ -69,7 +68,7 @@ export const actions = {
     },
 
     async deleteSchool({dispatch, commit}, id) {
-        return axios.delete(`/api/School/delete/${id}`, config)
+        return axios.delete(`/api/School/delete/${id}`, authHeader())
         .then(() => {
             commit("removeSchool", id)
             dispatch("toast/success", `School deleted successfully!`, {root: true})

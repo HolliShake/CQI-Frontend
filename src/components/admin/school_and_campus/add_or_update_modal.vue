@@ -34,7 +34,7 @@
                 this.schoolNumber = this.data.schoolNumber
             },
 
-            onOk() {
+            onAddSchool() {
                 this.submitted = true
                 this.$v.$touch();
 
@@ -95,7 +95,7 @@
             hide-header-close
             :ok-disabled="(this.$v.$invalid) ? true : false"
             @show="onShow"
-            @ok="onOk"
+            @ok="onAddSchool"
             @cancel="onCancel">
 
 
