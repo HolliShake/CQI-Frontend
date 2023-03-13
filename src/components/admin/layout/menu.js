@@ -2,82 +2,46 @@
 export const menuItems = [
     {
         id: 1,
-        label: "admin.sidebar-items.menu.text",
+        label: "Menu",
         isTitle: true
     },
     {
         id: 2,
-        label: "admin.sidebar-items.dashboard.text",
+        label: "Dashboard",
         icon: "bx-bar-chart-square",
         link: "/"
     },
     {
         id: 3,
-        label: "admin.sidebar-items.school-and-campus.text",
+        label: "School and campuses",
         icon: "bxs-school",
         link: "/schoolandcampus"
     },
     {
         id: 4,
-        label: "admin.sidebar-items.delivery-unit.text",
+        label: "Delivery unit",
         icon: "bxs-school",
         link: "/schoolandcampus"
     },
     {
         id: 5,
-        label: "admin.sidebar-items.operation.text",
+        label: "Operation",
         isTitle: true
     },
     {
         id: 12,
-        label: "admin.sidebar-items.admission.text",
+        label: "Admission",
         icon: "bx-store",
         subItems: [
             {
                 id: 13,
-                label: "menuitems.ecommerce.list.products",
+                label: "Products",
                 link: "#",
                 parentId: 12
             },
             {
                 id: 14,
-                label: "menuitems.ecommerce.list.productdetail",
-                link: "#",
-                parentId: 12
-            },
-            {
-                id: 15,
-                label: "menuitems.ecommerce.list.orders",
-                link: "#",
-                parentId: 12
-            },
-            {
-                id: 16,
-                label: "menuitems.ecommerce.list.customers",
-                link: "#",
-                parentId: 12
-            },
-            {
-                id: 17,
-                label: "menuitems.ecommerce.list.cart",
-                link: "#",
-                parentId: 12
-            },
-            {
-                id: 18,
-                label: "menuitems.ecommerce.list.checkout",
-                link: "#",
-                parentId: 12
-            },
-            {
-                id: 19,
-                label: "menuitems.ecommerce.list.shops",
-                link: "#",
-                parentId: 12
-            },
-            {
-                id: 20,
-                label: "menuitems.ecommerce.list.addproduct",
+                label: "Product detail",
                 link: "#",
                 parentId: 12
             }

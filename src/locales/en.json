@@ -35,7 +35,12 @@
           "add-or-update": {
             "title": {
               "create": { "text": "Create new school" },
-              "update": { "text": "Update school" }
+              "update": { "text": "Update school" },
+              "form": {
+                "school-name": { "text": "School name" },
+                "school-short-number": { "text": "Short name" },
+                "school-number": { "text": "School number" }
+              }
             }
           }
         },

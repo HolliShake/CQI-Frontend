@@ -124,7 +124,7 @@
                         <b-form-group
                             class="mb-3"
                             id="input-group-1"
-                            label="School Name"
+                            label="Short Name"
                             label-for="input-schoolShortName">
                             <b-form-input 
                                 id="input-schoolShortName"

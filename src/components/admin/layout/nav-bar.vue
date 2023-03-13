@@ -76,32 +76,18 @@ export default {
           <b-dropdown-item>
             <router-link tag="span" to="/contacts/profile">
               <i class="bx bx-user font-size-16 align-middle me-1"></i>
-              {{ $t("navbar.dropdown.henry.list.profile") }}
+              Profile
             </router-link>
           </b-dropdown-item>
-          <b-dropdown-item href="javascript: void(0);">
-            <i class="bx bx-wallet font-size-16 align-middle me-1"></i>
-            {{ $t("navbar.dropdown.henry.list.mywallet") }}
-          </b-dropdown-item>
-          <b-dropdown-item class="d-block" href="javascript: void(0);">
-            <span class="badge bg-success float-end">11</span>
-            <i class="bx bx-wrench font-size-16 align-middle me-1"></i>
-            {{ $t("navbar.dropdown.henry.list.settings") }}
-          </b-dropdown-item>
-          <b-dropdown-item href="javascript: void(0);">
-            <i class="bx bx-lock-open font-size-16 align-middle me-1"></i>
-            {{ $t("navbar.dropdown.henry.list.lockscreen") }}
-          </b-dropdown-item>
+
           <b-dropdown-divider></b-dropdown-divider>
+
           <b-button
             variant="link"
             @click="logoutUser"
-            class="dropdown-item text-danger"
-          >
-            <i
-              class="bx bx-power-off font-size-16 align-middle me-1 text-danger"
-            ></i>
-            {{ $t("navbar.dropdown.henry.list.logout") }}
+            class="dropdown-item text-danger">
+            <i class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i>
+            Logout
         </b-button>
         </b-dropdown>
 
@@ -109,134 +95,58 @@ export default {
           right
           menu-class="dropdown-menu-lg p-0 dropdown-menu-end"
           toggle-class="header-item noti-icon"
-          variant="black"
-        >
+          variant="black">
+
           <template v-slot:button-content>
             <i class="bx bx-bell bx-tada"></i>
-            <span class="badge bg-danger rounded-pill">{{
-              $t("navbar.dropdown.notification.badge")
-            }}</span>
+            <span class="badge bg-danger rounded-pill">3</span>
           </template>
 
           <div class="p-3">
             <div class="row align-items-center">
               <div class="col">
                 <h6 class="m-0">
-                  {{ $t("navbar.dropdown.notification.text") }}
+                  Notifications
                 </h6>
               </div>
               <div class="col-auto">
-                <a href="#" class="small">{{
-                  $t("navbar.dropdown.notification.subtext")
-                }}</a>
+                <a href="#" class="small">#</a>
               </div>
             </div>
           </div>
           <simplebar style="max-height: 230px">
-            <a href="javascript: void(0);" class="text-reset notification-item">
-              <div class="media">
-                <div class="avatar-xs me-3">
-                  <span
-                    class="avatar-title bg-primary rounded-circle font-size-16"
-                  >
-                    <i class="bx bx-cart"></i>
-                  </span>
-                </div>
-                <div class="media-body">
-                  <h6 class="mt-0 mb-1">
-                    {{ $t("navbar.dropdown.notification.order.title") }}
-                  </h6>
-                  <div class="font-size-12 text-muted">
-                    <p class="mb-1">
-                      {{ $t("navbar.dropdown.notification.order.text") }}
-                    </p>
-                    <p class="mb-0">
-                      <i class="mdi mdi-clock-outline"></i>
-                      {{ $t("navbar.dropdown.notification.order.time") }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </a>
-            <a href="javascript: void(0);" class="text-reset notification-item">
-              <div class="media">
-                <img
-                  src="@/assets/images/users/avatar-3.jpg"
-                  class="me-3 rounded-circle avatar-xs"
-                  alt="user-pic"
-                />
-                <div class="media-body">
-                  <h6 class="mt-0 mb-1">
-                    {{ $t("navbar.dropdown.notification.james.title") }}
-                  </h6>
-                  <div class="font-size-12 text-muted">
-                    <p class="mb-1">
-                      {{ $t("navbar.dropdown.notification.james.text") }}
-                    </p>
-                    <p class="mb-0">
-                      <i class="mdi mdi-clock-outline"></i>
-                      {{ $t("navbar.dropdown.notification.james.time") }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </a>
-            <a href="javascript: void(0);" class="text-reset notification-item">
-              <div class="media">
-                <div class="avatar-xs me-3">
-                  <span
-                    class="avatar-title bg-success rounded-circle font-size-16"
-                  >
-                    <i class="bx bx-badge-check"></i>
-                  </span>
-                </div>
-                <div class="media-body">
-                  <h6 class="mt-0 mb-1">
-                    {{ $t("navbar.dropdown.notification.item.title") }}
-                  </h6>
-                  <div class="font-size-12 text-muted">
-                    <p class="mb-1">
-                      {{ $t("navbar.dropdown.notification.item.text") }}
-                    </p>
-                    <p class="mb-0">
-                      <i class="mdi mdi-clock-outline"></i>
-                      {{ $t("navbar.dropdown.notification.item.time") }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </a>
+
+            <!-- resolve with v-for -->
             <a href="javascript: void(0);" class="text-reset notification-item">
               <div class="media">
                 <img
                   src="@/assets/images/users/avatar-4.jpg"
                   class="me-3 rounded-circle avatar-xs"
-                  alt="user-pic"
-                />
+                  alt="user-pic"/>
                 <div class="media-body">
                   <h6 class="mt-0 mb-1">
-                    {{ $t("navbar.dropdown.notification.salena.title") }}
+                    Someone else's daughter
                   </h6>
                   <div class="font-size-12 text-muted">
                     <p class="mb-1">
-                      {{ $t("navbar.dropdown.notification.salena.text") }}
+                      Wanna bang tonight??
                     </p>
                     <p class="mb-0">
                       <i class="mdi mdi-clock-outline"></i>
-                      {{ $t("navbar.dropdown.notification.salena.time") }}
+                      08:00PM
                     </p>
                   </div>
                 </div>
               </div>
             </a>
+
           </simplebar>
           <div class="p-2 border-top d-grid">
             <a
               class="btn btn-sm btn-link font-size-14 text-center"
-              href="javascript:void(0)"
-            >
+              href="javascript:void(0)">
               <i class="mdi mdi-arrow-right-circle me-1"></i>
-              {{ $t("navbar.dropdown.notification.button") }}
+              Show more
             </a>
           </div>
         </b-dropdown>
