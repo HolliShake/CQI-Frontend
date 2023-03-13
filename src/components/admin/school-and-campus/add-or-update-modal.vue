@@ -1,5 +1,6 @@
 
 <script>
+    import "@/i18n"
     import { required } from "vuelidate/lib/validators";
     import { mapState } from "vuex";
 
@@ -86,7 +87,7 @@
 <template>
         <b-modal 
             :id="id" 
-            :title="(!data) ? 'Create new schools' : 'Update school'" 
+            :title="(!data) ? $t('admin.page.school-and-campuses.modal.add-or-update.title.create.text') : $t('admin.page.school-and-campuses.modal.add-or-update.title.update.text')" 
             header-class="border-0"
             footer-class="border-0"
             content-class="bg-white rounded shadow-sm"

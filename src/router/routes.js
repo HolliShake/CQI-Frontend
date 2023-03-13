@@ -15,7 +15,7 @@ export default [
     meta: {
       authRequired: true,
     },
-    component: () => import('./views/admin/school_and_campus'),
+    component: () => import('./views/admin/school-and-campus'),
   },
   /*________________________________ Authentication*/
   {

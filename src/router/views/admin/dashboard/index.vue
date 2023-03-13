@@ -1,7 +1,7 @@
 <script>
 import Layout from "../../../layouts/admin/main";
 import appConfig from "@/app.config";
-import PageHeader from "@/components/page-header";
+import PageHeader from "@/components/admin/layout/page-header";
 /**
  * Dashboard Component
  */

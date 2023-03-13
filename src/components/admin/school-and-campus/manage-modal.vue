@@ -58,13 +58,13 @@
                 this.$store.dispatch("campus/newCampus", {
                     campusName: this.campusName,
                     campusShortName: this.campusShortName,
+                    zipCodeId: 0,
                     barangay: this.zipcodeBarangay,
                     city: this.zipcodeCity,
                     province: this.zipcodeProvince,
                     region: this.zipcodeRegion,
                     country: this.zipcodeCountry,
                     schoolId: this.school.id,
-                    zipCodeId: 0,
                 })
                 .then(this.whenCampusDone)
             },
@@ -327,12 +327,9 @@
                         </b-row>
                     </b-container>
                 </b-form>
-
             </b-tab>
 
         </b-tabs>
-
-       
 
         <template #modal-cancel>
             close

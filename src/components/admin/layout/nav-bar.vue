@@ -1,5 +1,5 @@
 <script>
-import i18n from "../../i18n";
+import i18n from "@/i18n";
 import simplebar from "simplebar-vue";
 
 /**
@@ -66,8 +66,7 @@ export default {
             <img
               class="rounded-circle header-profile-user"
               src="@/assets/images/users/avatar-1.jpg"
-              alt="Header Avatar"
-            />
+              alt="Header Avatar" />
             <span class="d-none d-xl-inline-block ms-1">{{
               userName
             }}</span>

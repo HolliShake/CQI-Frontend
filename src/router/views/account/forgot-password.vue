@@ -1,6 +1,6 @@
 <script>
 
-import Layout from "../../layouts/auth";
+import Layout from "../../layouts/account/auth";
 import { authMethods } from "@/state/helpers";
 import appConfig from "@/app.config";
 

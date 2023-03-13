@@ -2,16 +2,15 @@
 import router from "@/router";
 import { layoutComputed } from "@/state/helpers";
 
-import NavBar from "@/components/admin/nav-bar";
-import SideBar from "@/components/admin/side-bar";
-import RightBar from "@/components/admin/right-bar";
-import Footer from "@/components/footer";
+import NavBar from "@/components/admin/layout/nav-bar";
+import SideBar from "@/components/admin/layout/side-bar";
+import Footer from "@/components/global/layout/footer";
 
 /**
  * Vertical layout
  */
 export default {
-  components: { NavBar, SideBar, RightBar, Footer },
+  components: { NavBar, SideBar, Footer },
   data() {
     return {
       isMenuCondensed: false,

@@ -25,7 +25,7 @@ export default {
         <b-dropdown-item @click="$emit('manage')">
            <span>
                 <i class="bx bx-box font-size-16 align-middle me-1"></i>
-                {{ $t("actionButton.manage") }}
+                {{ $t("action-button.manage") }}
            </span>
         </b-dropdown-item>
 
@@ -34,13 +34,13 @@ export default {
 
         <b-dropdown-item @click="$emit('update')">
             <i class="bx bx-edit-alt font-size-16 align-middle me-1"></i>
-            {{ $t("actionButton.update") }}
+            {{ $t("action-button.update") }}
         </b-dropdown-item>
 
         <b-dropdown-item @click="$emit('delete')">
            <span>
                 <i class="bx bx-trash font-size-16 align-middle me-1"></i>
-                {{ $t("actionButton.delete") }}
+                {{ $t("action-button.delete") }}
            </span>
         </b-dropdown-item>
 

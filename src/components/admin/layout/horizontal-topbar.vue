@@ -1,6 +1,5 @@
 <script>
-import i18n from "../../i18n";
-
+import i18n from "@/i18n";
 import simplebar from "simplebar-vue";
 import { layoutComputed } from "@/state/helpers";
 

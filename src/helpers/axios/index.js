@@ -2,15 +2,12 @@ import Vue from 'vue'
 import axios from 'axios'
 import router from './router'
 import store from '@/state/store'
-
  
 const axiosSwagger = axios.create({
     baseURL: process.env.VUE_APP_SWAGGER_URL
 });
-
  
 axiosSwagger.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8';
-
 
 axiosSwagger.interceptors.request.use(config => {
     config.headers.Authorization = `Bearer ${store.state.account.auth.user.accessToken}`;

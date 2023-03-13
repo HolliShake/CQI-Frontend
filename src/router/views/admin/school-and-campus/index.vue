@@ -1,11 +1,12 @@
 <script>
-import {mapState} from "vuex";
+import "@/i18n";
+import { mapState } from "vuex";
 import appConfig from "@/app.config";
-import PageHeader from "@/components/page-header";
+import PageHeader from "@/components/admin/layout/page-header";
 import Layout from "../../../layouts/admin/main";
-import ManageSchoolModal from "@/components/admin/school_and_campus/manage_modal.vue"
-import AddOrUpdateSchoolModal from "@/components/admin/school_and_campus/add_or_update_modal.vue"
-import ActionButton from "@/components/admin/school_and_campus/action-button.vue"
+import ManageSchoolModal from "@/components/admin/school-and-campus/manage-modal.vue"
+import AddOrUpdateSchoolModal from "@/components/admin/school-and-campus/add-or-update-modal.vue"
+import ActionButton from "@/components/admin/school-and-campus/action-button.vue"
 import EmptyList from "@/components/state/empty-data.vue"
 import NoConenction from "@/components/state/no-connection.vue"
 
@@ -33,13 +34,12 @@ export default {
 },
   data() {
     return {
-      title: "School and Campuses",
       school: {
         fields: [
           {key: "#", thClass: "text-center", tdClass: "text-center"},
-          "schoolFullName", 
-          {key: "schoolNumber", thClass: "text-center", tdClass: "text-center"},
-          {key: "action", thClass: "text-center", tdClass: "text-center"}
+          {key: this.$t("admin.page.school-and-campuses.table.school-full-name.text") },
+          {key: this.$t("admin.page.school-and-campuses.table.school-number.text"), thClass: "text-center", tdClass: "text-center"},
+          {key: this.$t("admin.page.school-and-campuses.table.action.text"), thClass: "text-center", tdClass: "text-center"}
         ],
         perPage: 4,
         currentPage: 1
@@ -79,7 +79,7 @@ export default {
 <template>
   <Layout>
 
-    <PageHeader :title="title" />
+    <PageHeader :title="this.$t('admin.page.school-and-campuses.header.text')" />
 
     <ManageSchoolModal 
       id="manageSchoolModal"/>
@@ -102,9 +102,8 @@ export default {
                       size="sm"
                       variant="success"
                       @click="onCreate">
-                      <!-- v-b-modal.addOrUpdateSchoolModal> -->
                         <i class="bx bxs-plus-square"></i>
-                        New School
+                        {{ $t('admin.page.school-and-campuses.button.new-school.text') }}
                       </b-button>
                   </b-col>
 
@@ -128,7 +127,7 @@ export default {
                         <ActionButton 
                           @manage="() => onManage(row.item)"
                           @delete="() => onDelete(row.item.id)" 
-                          @update="() => onUpdate(row.item)"/>
+                          @update="() => onUpdate(row.item)" />
                       </template>
 
                     </b-table>
