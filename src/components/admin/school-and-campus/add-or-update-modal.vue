@@ -87,7 +87,7 @@
 <template>
         <b-modal 
             :id="id" 
-            :title="(!data) ? $t('admin.page.school-and-campuses.modal.add-or-update.title.create.text') : $t('admin.page.school-and-campuses.modal.add-or-update.title.update.text')" 
+            :title="(!data) ? 'Create new school' : 'Update school'" 
             header-class="border-0"
             footer-class="border-0"
             content-class="bg-white rounded shadow-lg"

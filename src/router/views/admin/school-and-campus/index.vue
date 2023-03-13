@@ -37,9 +37,9 @@ export default {
       school: {
         fields: [
           {key: "#", thClass: "text-center", tdClass: "text-center"},
-          {key: this.$t("admin.page.school-and-campuses.table.school-full-name.text") },
-          {key: this.$t("admin.page.school-and-campuses.table.school-number.text"), thClass: "text-center", tdClass: "text-center"},
-          {key: this.$t("admin.page.school-and-campuses.table.action.text"), thClass: "text-center", tdClass: "text-center"}
+          {key: "schoolFullName" },
+          {key: "schoolNumber", thClass: "text-center", tdClass: "text-center"},
+          {key: "action", thClass: "text-center", tdClass: "text-center"}
         ],
         perPage: 4,
         currentPage: 1
@@ -79,7 +79,7 @@ export default {
 <template>
   <Layout>
 
-    <PageHeader :title="this.$t('admin.page.school-and-campuses.header.text')" />
+    <PageHeader title="School and campuses" />
 
     <ManageSchoolModal 
       id="manageSchoolModal"/>
@@ -103,7 +103,7 @@ export default {
                       variant="success"
                       @click="onCreate">
                         <i class="bx bxs-plus-square"></i>
-                        {{ $t('admin.page.school-and-campuses.button.new-school.text') }}
+                        New school
                       </b-button>
                   </b-col>
 
