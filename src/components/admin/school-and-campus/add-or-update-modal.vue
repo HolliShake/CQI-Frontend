@@ -90,7 +90,7 @@
             :title="(!data) ? $t('admin.page.school-and-campuses.modal.add-or-update.title.create.text') : $t('admin.page.school-and-campuses.modal.add-or-update.title.update.text')" 
             header-class="border-0"
             footer-class="border-0"
-            content-class="bg-white rounded shadow-sm"
+            content-class="bg-white rounded shadow-lg"
             no-close-on-esc 
             no-close-on-backdrop
             hide-header-close
