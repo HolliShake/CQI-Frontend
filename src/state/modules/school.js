@@ -3,6 +3,10 @@ import _ from "lodash";
 import { authHeader } from "@/helpers/authservice/auth-header";
 
 
+/**
+ * Use axios config to call API src/helpers/axios/index.js
+ * TODO: remove dispatch to toast.
+ */
 
 
 const storedData = JSON.parse(localStorage.getItem("schools"))

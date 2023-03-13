@@ -45,9 +45,6 @@
                 this.$store.dispatch("school/getSchool", this.school.id)
 
                 this.countries = (await axios.get("https://restcountries.com/v3.1/all")).data
-                // eslint-disable-next-line
-                console.log(this.countries)
-
             },
 
 
@@ -63,10 +60,11 @@
                     campusShortName: this.campusShortName,
                     barangay: this.zipcodeBarangay,
                     city: this.zipcodeCity,
-                    province: this.zipcode.zipcodeProvince,
+                    province: this.zipcodeProvince,
                     region: this.zipcodeRegion,
-                    country: this.zipcode.zipcodeCountry,
-                    schoolId: this.school.id
+                    country: this.zipcodeCountry,
+                    schoolId: this.school.id,
+                    zipCodeId: 0,
                 })
                 .then(this.whenCampusDone)
             },
@@ -93,7 +91,6 @@
             ...mapState("schoolManageModal", ["school"])
         },
         validations: {
-
             // campus
             campusName: { required },
             campusShortName: { required },
@@ -135,12 +132,13 @@
                                         <h4 class="h4">Campuses</h4>
                                         <b-button
                                             variant="warning" 
-                                            size="sm">
+                                            size="sm"
+                                            @click="tabIndex = actionMap.default.createCampus">
                                             <i class="bx bxs-plus-square"></i> Create campus 
                                         </b-button>
                                     </div>
                                 </b-col>
-                                <b-col cols="12" class="mb-3 px-0">
+                                <b-col cols="12" class="my-3 px-0">
                                     <b-container v-if="campuses.length <= 0" fluid id="manage-modal__emptyCampus" class="my-5">
                                         <b-row>
                                             <b-col cols="12" class="text-center">
@@ -154,16 +152,16 @@
                                             </b-col>
                                         </b-row>
                                     </b-container>
-                                    <div v-else class="accordion accordion-flush" id="accordionFlushExample">
+                                    <div v-else class="accordion accordion-flush" id="campusAccordion">
                                         <div v-for="campus in campuses" class="accordion-item" :key="campus.id">
-                                            <h2 class="accordion-header" id="flush-headingOne">
-                                                <b-button 
-                                                    v-b-toggle.accordion-1
+                                            <h2 class="accordion-header" :id="`campus-header__${campus.campusName}`">
+                                                <button 
+                                                    v-b-toggle="`accordion-id__${campus.id}`"
                                                     class="accordion-button collapsed" type="button">
-                                                    {{ campus.campusName }}
-                                                </b-button>
+                                                    <span class="fw-bold">{{ campus.campusName }}</span>
+                                                </button>
                                             </h2>
-                                            <b-collapse id="accordion-1" visible accordion="accordionFlushExample" role="tabpanel">
+                                            <b-collapse :id="`accordion-id__${campus.id}`" accordion="campusAccordion" role="tabpanel">
                                                 <b-card-body>
                                                     <b-card-text>I start opened because <code>visible</code> is <code>true</code></b-card-text>
                                                 </b-card-body>
