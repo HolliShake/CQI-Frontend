@@ -1,6 +1,4 @@
-import axios from "axios";
 import _ from "lodash";
-import { authHeader } from "@/helpers/authservice/auth-header";
 
 import { axiosSwagger }  from "@/helpers/axios-swagger/axios-swagger";
 
@@ -15,7 +13,7 @@ import { axiosSwagger }  from "@/helpers/axios-swagger/axios-swagger";
 export const state = {
 //    ...(storedData ? {items: storedData} : {items: []}),
     items: [],
-    campuses: [],
+    campuses: [], // current selected school campuses
     isNoConnection: false
 };
 
@@ -29,55 +27,45 @@ export const getters = {
 export const actions = {
 
     fetchAll({commit}) {
-
         axiosSwagger.get("/api/School/all")
-        .then(res => {
-            commit("setItem", res.data)
-        })
-
+        .then(res => commit("setItem", res.data))
     },
     
-    getSchool({dispatch, commit}, id) {
-        axios.get(`/api/School/${id}/campuses`, authHeader())
-        .then(res => {
-            commit("setCampuses", res.data.campuses)
-        })
-        .catch(() => dispatch("toast/connectionProblem", {}, {root: true}))
+    getSchool({commit}, id) {
+        axiosSwagger.get(`/api/School/${id}/campuses`)
+        .then(res => commit("setCampuses", res.data.campuses))
     },
 
     async newSchool({dispatch, commit}, {schoolName, schoolNumber, schoolShortName}) {
-        return axios.post("/api/School/create", {
+        return axiosSwagger.post("/api/School/create", {
             SchoolName: schoolName,
             SchoolNumber: schoolNumber,
             SchoolShortName: schoolShortName
-        }, authHeader())
+        })
         .then(res => {
             commit("appendSchool", res.data)
             dispatch("toast/success", "School created successfully!", {root: true})
         })
-        .catch(() => dispatch("toast/connectionProblem", {}, {root: true}))
     },
 
     async updateSchool({dispatch, commit}, {id, schoolName, schoolNumber, schoolShortName}) {
-        return axios.put(`/api/School/update/${id}`, {
+        return axiosSwagger.put(`/api/School/update/${id}`, {
             SchoolName: schoolName,
             SchoolNumber: schoolNumber,
             SchoolShortName: schoolShortName
-        }, authHeader())
+        })
         .then(() => {
             commit("modifySchool", {id, schoolName, schoolNumber, schoolShortName})
             dispatch("toast/success", "School updated successfully!", {root: true})
         })
-        .catch(() => dispatch("toast/connectionProblem", {}, {root: true}))
     },
 
     async deleteSchool({dispatch, commit}, id) {
-        return axios.delete(`/api/School/delete/${id}`, authHeader())
+        return axiosSwagger.delete(`/api/School/delete/${id}`)
         .then(() => {
             commit("removeSchool", id)
             dispatch("toast/success", `School deleted successfully!`, {root: true})
         })
-        .catch(() => dispatch("toast/connectionProblem", {}, {root: true}))
     },
 
     pushCampus({commit}, data) {
@@ -89,7 +77,6 @@ export const mutations = {
 
     setItem(state, data) {
         state.items = data
-        localStorage.setItem("schools", JSON.stringify(state.items));
     },
 
     setCampuses(state, data) {
@@ -99,7 +86,6 @@ export const mutations = {
     appendSchool(state, data) {
         _.merge(data, {schoolFullName: `${data.schoolName} (${data.schoolShortName})`})
         state.items.push(data)
-        localStorage.setItem("schools", JSON.stringify(state.items));
     },
 
     modifySchool(state, data) {

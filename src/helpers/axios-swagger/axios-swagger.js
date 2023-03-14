@@ -3,14 +3,12 @@ import axios from 'axios'
 import router from '@/router'
 import store from '@/state/store'
 
-// eslint-disable-next-line no-console
-console.log(process.env.VUE_APP_SWAGGER_URL)
-
 const axiosSwagger = axios.create({
     baseURL: process.env.VUE_APP_SWAGGER_URL
 });
  
 axiosSwagger.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8';
+axiosSwagger.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 axiosSwagger.interceptors.request.use(config => {
     config.headers.Authorization = `Bearer ${store.state.auth.user.accessToken}`;
@@ -18,10 +16,16 @@ axiosSwagger.interceptors.request.use(config => {
     return config;
 });
 
-axiosSwagger.interceptors.response.use(response => {
-    return response;
-}, error => {
-   
+axiosSwagger.interceptors.response.use(response => response, error => {
+
+    if (error.code === "ERR_NETWORK")
+    {
+        Vue.$toast.error("Something went wrong, check your connection!", {
+            duration: 7000
+        });
+        return Promise.reject(error);
+    }
+    
     if (error.response.status === 404) {
       router.push({name: '404'})
     }

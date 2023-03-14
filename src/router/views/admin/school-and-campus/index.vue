@@ -8,7 +8,6 @@ import ManageSchoolModal from "@/components/admin/school-and-campus/manage-modal
 import AddOrUpdateSchoolModal from "@/components/admin/school-and-campus/add-or-update-modal.vue"
 import ActionButton from "@/components/admin/school-and-campus/action-button.vue"
 import EmptyList from "@/components/state/empty-data.vue"
-import NoConenction from "@/components/state/no-connection.vue"
 
 /**
  * Dashboard Component
@@ -29,12 +28,13 @@ export default {
     ManageSchoolModal,
     AddOrUpdateSchoolModal,
     ActionButton,
-    EmptyList,
-    NoConenction
+    EmptyList
 },
   data() {
     return {
       school: {
+        loaded: false,
+        isempty: false,
         fields: [
           {key: "#", thClass: "text-center", tdClass: "text-center"},
           {key: "schoolFullName" },
@@ -68,10 +68,16 @@ export default {
 
   },
   computed: {
-    ...mapState("school", ["items", "isNoConnection"]),
+    ...mapState("school", ["items"])
   },
   mounted() {
-    this.$store.dispatch("school/fetchAll");
+    this.$store.dispatch("school/fetchAll")
+    .then(() => (this.school.loaded = true));
+  },
+  watch: {
+    items() {
+        this.school.isempty = (this.items.length === 0);
+    },
   }
 };
 </script>
@@ -92,72 +98,73 @@ export default {
       <b-row>
         <b-col class="px-0" offset="12">
           <div class="py-3">
-            <div v-if="items.length > 0">
-              <b-container>
+            
+            <b-container>
                 <b-row>
-                  <!-- asd -->
-                  <b-col cols="12" class="mb-3">
-                    <b-button
-                      class="d-block ms-auto"
-                      size="sm"
-                      variant="success"
-                      @click="onCreate">
-                        <i class="bx bxs-plus-square"></i>
-                        New school
-                      </b-button>
-                  </b-col>
 
-                  <b-col cols="12">
-                    <b-table 
-                      id="schoolTable"
-                      class="border"
-                      ref="schoolTable"
-                      striped
-                      bordered
-                      :per-page="school.perPage"
-                      :current-page="school.currentPage"
-                      :fields="school.fields"
-                      :items="items">
+                    <b-col cols="12">
+                        <div v-if="!school.loaded" class="text-center">
+                            <b-spinner variant="primary" label="Spinning"></b-spinner>
+                            <h4 class="my-3 text-muted">Loading data...</h4>
+                        </div>
+                        <div v-else>
+                            
+                            <div v-if="items.length > 0 && !school.isempty">
 
-                      <template #cell(#)="row">
-                        {{ row.item.id }}
-                      </template>
+                                <b-button
+                                    class="d-block ms-auto mb-3"
+                                    size="sm"
+                                    variant="success"
+                                    @click="onCreate">
+                                    <i class="bx bxs-plus-square"></i>
+                                    New school
+                                </b-button>
 
-                      <template #cell(action)="row">
-                        <ActionButton 
-                          @manage="() => onManage(row.item)"
-                          @delete="() => onDelete(row.item.id)" 
-                          @update="() => onUpdate(row.item)" />
-                      </template>
+                                <b-table
+                                    id="schoolTable"
+                                    class="border"
+                                    ref="schoolTable"
+                                    striped
+                                    bordered
+                                    :per-page="school.perPage"
+                                    :current-page="school.currentPage"
+                                    :fields="school.fields"
+                                    :items="items">
 
-                    </b-table>
-                    
-                    <div class="overflow-auto">
-                      <b-pagination
-                        align="right" 
-                        v-model="school.currentPage" 
-                        :total-rows="items.length" 
-                        :per-page="school.perPage" 
-                        aria-controls="schoolTable"></b-pagination>
-                    </div>
-                  </b-col>
+                                    <template #cell(#)="row">
+                                        {{ row.item.id }}
+                                    </template>
+
+                                    <template #cell(action)="row">
+                                        <ActionButton 
+                                        @manage="() => onManage(row.item)"
+                                        @delete="() => onDelete(row.item.id)" 
+                                        @update="() => onUpdate(row.item)" />
+                                    </template>
+
+                                </b-table>
+                                    
+                                <div class="overflow-auto">
+                                    <b-pagination
+                                        align="right" 
+                                        v-model="school.currentPage" 
+                                        :total-rows="items.length" 
+                                        :per-page="school.perPage" 
+                                        aria-controls="schoolTable"></b-pagination>
+                                </div>
+                            </div>
+                            <div v-else-if="school.isempty">
+                                <EmptyList 
+                                    label="Your school collection is empty."
+                                    icon-class="bx bxs-plus-square"
+                                    buttonLabel="New school" 
+                                    @onAction="onCreate"/>
+                            </div>
+                            
+                        </div>
+                    </b-col>
                 </b-row>
-              </b-container>
-            </div>
-
-            <div v-else-if="isNoConnection">
-              <NoConenction 
-                icon-class="bx bxs-plus-square"
-                buttonLabel="Logout" />
-            </div>
-
-            <div v-else>
-              <EmptyList 
-                label="Your school collection is empty."
-                icon-class="bx bxs-plus-square"
-                buttonLabel="New school" 
-                @onAction="onCreate"/>
-            </div>
+            </b-container>
 
           </div>
         </b-col>

@@ -30,6 +30,7 @@
             onShow() {
                 if (!this.data) return
 
+                // update mode?
                 this.schoolName = this.data.schoolName
                 this.schoolShortName = this.data.schoolShortName
                 this.schoolNumber = this.data.schoolNumber

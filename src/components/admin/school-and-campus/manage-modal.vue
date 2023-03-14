@@ -43,8 +43,9 @@
                 if (!this.school) return
 
                 this.$store.dispatch("school/getSchool", this.school.id)
-
-                this.countries = (await axios.get("https://restcountries.com/v3.1/all")).data
+                this.countries = 
+                    (await axios.get("https://restcountries.com/v3.1/all"))
+                    .data
             },
 
 
@@ -120,59 +121,61 @@
 
         <b-tabs v-model="tabIndex">
             <!-- default -->
-            <b-tab
-                title="Manage school"
+            <b-tab 
+                title="Manage school" 
                 title-link-class="d-none">
-                <b-tabs>
-                    <b-tab v-if="school" :title="school.schoolName">
-                        <b-container fluid class="mt-4">
-                            <b-row>
-                                <b-col v-if="campuses.length > 0" cols="12" class="px-0">
-                                    <div class="d-flex justify-content-between">
-                                        <h4 class="h4">Campuses</h4>
+                
+                <b-container fluid>
+                    <b-row>
+                        <b-col>
+                            <h2 class="h2 text-center">{{ school.schoolName }}</h2>
+                        </b-col>
+
+                        <b-col v-if="campuses.length > 0" cols="12" class="px-0">
+                            <div class="d-flex justify-content-between">
+                                <h4 class="h4">Campuses</h4>
+                                <b-button
+                                    variant="warning" 
+                                    size="sm"
+                                    @click="tabIndex = actionMap.default.createCampus">
+                                    <i class="bx bxs-plus-square"></i> Create campus 
+                                </b-button>
+                            </div>
+                        </b-col>
+                        <b-col cols="12" class="my-3 px-0">
+                            <b-container v-if="campuses.length <= 0" fluid id="manage-modal__emptyCampus" class="my-5">
+                                <b-row>
+                                    <b-col cols="12" class="text-center">
+                                        <h1 class="d-block display-1 bx bx-rocket"></h1>
+                                        <p class="d-block h1 my-3">You're all set!</p>
                                         <b-button
-                                            variant="warning" 
-                                            size="sm"
+                                            variant="primary" 
                                             @click="tabIndex = actionMap.default.createCampus">
-                                            <i class="bx bxs-plus-square"></i> Create campus 
+                                            <i class="bx bxs-plus-square"></i> Create your first campus
                                         </b-button>
-                                    </div>
-                                </b-col>
-                                <b-col cols="12" class="my-3 px-0">
-                                    <b-container v-if="campuses.length <= 0" fluid id="manage-modal__emptyCampus" class="my-5">
-                                        <b-row>
-                                            <b-col cols="12" class="text-center">
-                                                <h1 class="d-block display-1 bx bx-rocket"></h1>
-                                                <p class="d-block h1 my-3">You're all set!</p>
-                                                <b-button
-                                                    variant="primary" 
-                                                    @click="tabIndex = actionMap.default.createCampus">
-                                                    <i class="bx bxs-plus-square"></i> Create your first campus
-                                                </b-button>
-                                            </b-col>
-                                        </b-row>
-                                    </b-container>
-                                    <div v-else class="accordion accordion-flush" id="campusAccordion">
-                                        <div v-for="campus in campuses" class="accordion-item" :key="campus.id">
-                                            <h2 class="accordion-header" :id="`campus-header__${campus.campusName}`">
-                                                <button 
-                                                    v-b-toggle="`accordion-id__${campus.id}`"
-                                                    class="accordion-button collapsed" type="button">
-                                                    <span class="fw-bold">{{ campus.campusName }}</span>
-                                                </button>
-                                            </h2>
-                                            <b-collapse :id="`accordion-id__${campus.id}`" accordion="campusAccordion" role="tabpanel">
-                                                <b-card-body>
-                                                    <b-card-text>I start opened because <code>visible</code> is <code>true</code></b-card-text>
-                                                </b-card-body>
-                                            </b-collapse>
-                                        </div>
-                                    </div>
-                                </b-col>
-                            </b-row>
-                        </b-container>
-                    </b-tab>
-                </b-tabs>
+                                    </b-col>
+                                </b-row>
+                            </b-container>
+                            <div v-else class="accordion accordion-flush" id="campusAccordion">
+                                <div v-for="campus in campuses" class="accordion-item" :key="campus.id">
+                                    <h2 class="accordion-header" :id="`campus-header__${campus.campusName}`">
+                                        <button 
+                                            v-b-toggle="`accordion-id__${campus.id}`"
+                                            class="accordion-button collapsed" type="button">
+                                            <span class="fw-bold">{{ campus.campusName }}</span>
+                                        </button>
+                                    </h2>
+                                    <b-collapse :id="`accordion-id__${campus.id}`" accordion="campusAccordion" role="tabpanel">
+                                        <b-card-body>
+                                            <b-card-text>I start opened because <code>visible</code> is <code>true</code></b-card-text>
+                                        </b-card-body>
+                                    </b-collapse>
+                                </div>
+                            </div>
+                        </b-col>
+                    </b-row>
+                </b-container>
+
             </b-tab>
 
             <b-tab
