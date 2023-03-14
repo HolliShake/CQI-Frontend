@@ -2,19 +2,21 @@ import axios from "axios";
 import _ from "lodash";
 import { authHeader } from "@/helpers/authservice/auth-header";
 
+import { axiosSwagger }  from "@/helpers/axios-swagger/axios-swagger";
 
 /**
- * Use axios config to call API src/helpers/axios/index.js
+ * Use axios config to call API src/helpers/axiosswagger/index.js
  * TODO: remove dispatch to toast.
  */
 
 
-const storedData = JSON.parse(localStorage.getItem("schools"))
+// const storedData = JSON.parse(localStorage.getItem("schools"))
 
 export const state = {
-   ...(storedData ? {items: storedData} : {items: []}),
-   campuses: [],
-   isNoConnection: false
+//    ...(storedData ? {items: storedData} : {items: []}),
+    items: [],
+    campuses: [],
+    isNoConnection: false
 };
 
 
@@ -28,12 +30,10 @@ export const actions = {
 
     fetchAll({commit}) {
 
-        axios.get("/api/School/all", authHeader())
+        axiosSwagger.get("/api/School/all")
         .then(res => {
             commit("setItem", res.data)
-            commit("setNoConnection", false)
         })
-        .catch(() => commit("setNoConnection", true))
 
     },
     
@@ -78,6 +78,10 @@ export const actions = {
             dispatch("toast/success", `School deleted successfully!`, {root: true})
         })
         .catch(() => dispatch("toast/connectionProblem", {}, {root: true}))
+    },
+
+    pushCampus({commit}, data) {
+        commit("appendCampus", data)
     }
 };
 
@@ -113,6 +117,11 @@ export const mutations = {
 
     setNoConnection(state, data) {
         state.isNoConnection = data
+    },
+
+
+    appendCampus(state, data) {
+        state.campuses.push(data)
     }
 
 };

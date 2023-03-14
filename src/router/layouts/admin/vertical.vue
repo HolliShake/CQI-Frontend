@@ -99,7 +99,6 @@ export default {
         </div>
         <Footer />
       </div>
-      <RightBar />
     </div>
   </div>
 </template>

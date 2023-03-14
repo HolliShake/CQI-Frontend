@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import axios from 'axios'
-import router from './router'
+import router from '@/router'
 import store from '@/state/store'
- 
+
+// eslint-disable-next-line no-console
+console.log(process.env.VUE_APP_SWAGGER_URL)
+
 const axiosSwagger = axios.create({
     baseURL: process.env.VUE_APP_SWAGGER_URL
 });
@@ -10,7 +13,7 @@ const axiosSwagger = axios.create({
 axiosSwagger.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8';
 
 axiosSwagger.interceptors.request.use(config => {
-    config.headers.Authorization = `Bearer ${store.state.account.auth.user.accessToken}`;
+    config.headers.Authorization = `Bearer ${store.state.auth.user.accessToken}`;
     // config.headers.Authorization = `'x-access-token': ${store.state.account.auth.user.token}`;
     return config;
 });
@@ -18,6 +21,7 @@ axiosSwagger.interceptors.request.use(config => {
 axiosSwagger.interceptors.response.use(response => {
     return response;
 }, error => {
+   
     if (error.response.status === 404) {
       router.push({name: '404'})
     }

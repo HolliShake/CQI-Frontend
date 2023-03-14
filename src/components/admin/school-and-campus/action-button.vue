@@ -1,15 +1,10 @@
 <script>
-/**
- * Nav-bar Component
- */
-export default {
-  name: "ActionButton",
-  methods : {
-    clickMe() {
-        alert("HelloWorld")
-    }
-  }
-};
+    /**
+     * Nav-bar Component
+     */
+    export default {
+        name: "ActionButton"
+    };
 </script>
 
 <template>
@@ -24,8 +19,7 @@ export default {
         <!-- item-->
         <b-dropdown-item @click="$emit('manage')">
            <span>
-                <i class="bx bx-box font-size-16 align-middle me-1"></i>
-                Manage
+                <i class="bx bx-box font-size-16 align-middle me-1"></i> Manage
            </span>
         </b-dropdown-item>
 
@@ -33,14 +27,12 @@ export default {
         <b-dropdown-divider></b-dropdown-divider>
 
         <b-dropdown-item @click="$emit('update')">
-            <i class="bx bx-edit-alt font-size-16 align-middle me-1"></i>
-            Update
+            <i class="bx bx-edit-alt font-size-16 align-middle me-1"></i> Update
         </b-dropdown-item>
 
         <b-dropdown-item @click="$emit('delete')">
            <span>
-                <i class="bx bx-trash font-size-16 align-middle me-1"></i>
-                Delete
+                <i class="bx bx-trash font-size-16 align-middle me-1"></i> Delete
            </span>
         </b-dropdown-item>
 

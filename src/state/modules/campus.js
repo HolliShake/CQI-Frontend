@@ -24,7 +24,7 @@ export const actions = {
             ZipCodeId: campus.zipCodeId
         }, authHeader())
             .then(res => {
-                commit("appendCampus", res.data)
+                dispatch("school/pushCampus", res.data, {root: true})
                 dispatch("toast/success", "School created successfully!", {root: true})
             })
             .catch((err) => { 
